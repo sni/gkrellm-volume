@@ -25,19 +25,26 @@
   #ifdef ALSA
     #include "alsa_mixer.h"
   #endif
+  #ifdef BLUETOOTH
+    #include "bluetooth_mixer.h"
+  #endif
   #include "oss_mixer.h"
 #endif
 
 #ifdef WIN32
 mixer_ops_t *win32_mixer;
-#else 
+#else
 mixer_ops_t *oss_mixer;
 #endif
 
 #ifdef ALSA
 mixer_ops_t *alsa_mixer;
 #endif
-  
+
+#ifdef BLUETOOTH
+mixer_ops_t *bluetooth_mixer;
+#endif
+
 
 void init_mixer(void) {
 #ifdef WIN32
@@ -49,6 +56,10 @@ void init_mixer(void) {
 #ifdef ALSA
   alsa_mixer = init_alsa_mixer();
 #endif
+
+#ifdef BLUETOOTH
+  bluetooth_mixer = init_bluetooth_mixer();
+#endif
 }
 /* tries to open a mixer device, returns NULL on error or otherwise an mixer_t
  * struct */
@@ -57,10 +68,16 @@ mixer_t *mixer_open(char *id) {
 #ifdef WIN32
   result = win32_mixer->mixer_open(id);
 #else
-  #ifdef ALSA
-  result = alsa_mixer->mixer_open(id);
+  #ifdef BLUETOOTH
+  /* Try Bluetooth first for BT devices */
+  result = bluetooth_mixer->mixer_open(id);
   #endif
-  /* either no alsa mixer or alsa mixer failed */
+  /* Try ALSA if BT failed or not a BT device */
+  #ifdef ALSA
+  if (result == NULL)
+    result = alsa_mixer->mixer_open(id);
+  #endif
+  /* either no alsa/bluetooth mixer or they failed */
   if (result == NULL) {
     result = oss_mixer->mixer_open(id);
   }
@@ -68,7 +85,7 @@ mixer_t *mixer_open(char *id) {
   return result;
 }
 
-void 
+void
 mixer_close(mixer_t *mixer) {
   mixer->ops->mixer_close(mixer);
 }
@@ -109,14 +126,14 @@ void  mixer_set_device_name(mixer_t *mixer, int devid, char *name) {
 long mixer_get_device_fullscale(mixer_t *mixer, int devid) {
   return mixer->ops->mixer_device_get_fullscale(mixer, devid);
 }
-void  
+void
 mixer_get_device_volume(mixer_t *mixer, int devid, int *left, int *right) {
-  mixer->ops->mixer_device_get_volume(mixer, devid, left, right); 
+  mixer->ops->mixer_device_get_volume(mixer, devid, left, right);
 }
 
-void 
+void
 mixer_set_device_volume(mixer_t *mixer, int devid,int left,int right) {
-  mixer->ops->mixer_device_set_volume(mixer, devid, left, right); 
+  mixer->ops->mixer_device_set_volume(mixer, devid, left, right);
 }
 
 /* get an linked list of usable mixer devices */
@@ -126,11 +143,35 @@ mixer_get_id_list(void) {
 #ifdef WIN32
   result = win32_mixer->mixer_get_id_list();
 #else
-  #ifdef ALSA
-  result = alsa_mixer->mixer_get_id_list();
+  #ifdef BLUETOOTH
+  /* Get Bluetooth devices */
+  result = bluetooth_mixer->mixer_get_id_list();
   #endif
-  if (result == NULL) {
-    result = oss_mixer->mixer_get_id_list();
+  #ifdef ALSA
+  /* Add ALSA devices */
+  mixer_idz_t *alsa_list = alsa_mixer->mixer_get_id_list();
+  if (alsa_list != NULL) {
+    if (result == NULL) {
+      result = alsa_list;
+    } else {
+      /* Append ALSA list to result */
+      mixer_idz_t *tmp = result;
+      while (tmp->next != NULL) tmp = tmp->next;
+      tmp->next = alsa_list;
+    }
+  }
+  #endif
+  /* Add OSS devices */
+  mixer_idz_t *oss_list = oss_mixer->mixer_get_id_list();
+  if (oss_list != NULL) {
+    if (result == NULL) {
+      result = oss_list;
+    } else {
+      /* Append OSS list to result */
+      mixer_idz_t *tmp = result;
+      while (tmp->next != NULL) tmp = tmp->next;
+      tmp->next = oss_list;
+    }
   }
 #endif
   return result;

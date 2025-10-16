@@ -11,6 +11,17 @@ Compile with:
    make enable_alsa=1
 The plugin will prefer alsa and fall back to oss when there is no alsa support.
 
+bluetooth:
+==========
+Compile with:
+   make enable_bluetooth=1
+The plugin will detect connected Bluetooth audio devices (headsets, speakers, etc.)
+and allow you to control their volume through BlueZ D-Bus API.
+Requires: GIO library (typically part of GLib 2.0)
+
+You can enable both ALSA and Bluetooth support:
+   make enable_alsa=1 enable_bluetooth=1
+
 i18n:
 =====
  Compile with:
@@ -21,12 +32,12 @@ i18n:
 Installing:
 ===========
 Running 'make install' will place the plugin under
-/usr/local/lib/gkrellm2/plugins ugins.. You can also manually place the 
-resulting volume.so under ~/.gkrellm/plugins.. After restarting gkrellm, 
+/usr/local/lib/gkrellm2/plugins ugins.. You can also manually place the
+resulting volume.so under ~/.gkrellm/plugins.. After restarting gkrellm,
 you should be able to enable it in the gkrellm plugins configuration menu..
 
 Theming:
 ========
 This plugins supports gkrellm's plugin theming possibilities, it's even
 included in the default gkrellm theme :))... The keyword of the plugin is
-"volume".   
+"volume".

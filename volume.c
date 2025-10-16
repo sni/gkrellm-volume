@@ -88,7 +88,7 @@ static Slider *add_slider(Mixer *m, int dev) {
   if (m->Sliderz == NULL) m->Sliderz = result;
   else {
     for (s = m->Sliderz ; s->next != NULL; s = s->next);
-    s->next = result; 
+    s->next = result;
   }
   return result;
 }
@@ -124,9 +124,9 @@ volume_get_volume(Slider *s) {
   return left > right ?  left : right;
 }
 
-static void 
+static void
 volume_show_volume(Slider *s) {
-  if (s->krell != NULL) 
+  if (s->krell != NULL)
     gkrellm_update_krell(s->panel,s->krell,volume_get_volume(s));
   gkrellm_draw_panel_layers(s->panel);
   gkrellm_config_modified();
@@ -140,7 +140,7 @@ volume_set_volume(Slider *s,gint volume) {
   if (GET_FLAG(s->flags,MUTED)) return;
   volume = volume < 0 ? 0 : volume;
   if (volume < 0) volume = 0;
-  else if (volume > mixer_get_device_fullscale(s->mixer,s->dev)) 
+  else if (volume > mixer_get_device_fullscale(s->mixer,s->dev))
       volume = mixer_get_device_fullscale(s->mixer,s->dev);
 
   if (s->balance == 0 && !GET_FLAG(s->flags,BALANCE)) left = right = volume;
@@ -193,7 +193,7 @@ volume_mute_mixer(Mixer *m) {
   }
 }
 
-static void 
+static void
 volume_unmute_mixer(Mixer *m) {
   Slider *s;
   for (s = m->Sliderz ; s != NULL ; s = s->next) {
@@ -217,7 +217,7 @@ volume_toggle_mute(Slider *s) {
   }
 }
 
-static gint 
+static gint
 bvolume_cb_scroll(GtkWidget *widget, GdkEventScroll *event,Bslider *s) {
   int amount = 0;
   switch (event->direction) {
@@ -234,7 +234,7 @@ bvolume_cb_scroll(GtkWidget *widget, GdkEventScroll *event,Bslider *s) {
   return TRUE;
 }
 
-static gint 
+static gint
 volume_cb_scroll(GtkWidget *widget, GdkEventScroll *event,Slider *s) {
   gint  amount;
   amount = volume_get_volume(s);
@@ -284,7 +284,7 @@ volume_button_press(GtkWidget *widget,GdkEventButton *ev,Slider *s) {
     location = location >= 0 ? location : 0;
     location = (location * mixer_get_device_fullscale(s->mixer,s->dev))
               / s->krell->w_scale;
-    volume_set_volume(s,location); 
+    volume_set_volume(s,location);
   }
   else if (ev->button == 3) {
     run_right_click_cmd();
@@ -374,7 +374,7 @@ static void create_bslider(Slider *slide,int first_create) {
   if (first_create) {
     g_signal_connect(GTK_OBJECT(result->panel->drawing_area), "expose_event",
                          G_CALLBACK(bvolume_expose_event),result);
-    g_signal_connect(G_OBJECT(result->panel->drawing_area), "scroll_event", 
+    g_signal_connect(G_OBJECT(result->panel->drawing_area), "scroll_event",
                          G_CALLBACK(bvolume_cb_scroll), result);
     g_signal_connect(G_OBJECT(result->panel->drawing_area),"button_press_event",
                         G_CALLBACK(bvolume_button_press),result);
@@ -387,7 +387,7 @@ static void create_bslider(Slider *slide,int first_create) {
   volume_show_balance(slide);
 }
 
-void 
+void
 toggle_button_press(GkrellmDecalbutton *button, Slider *s) {
   int l,r ;
   mixer_get_device_volume(s->mixer, s->dev, &l, &r);
@@ -396,7 +396,7 @@ toggle_button_press(GkrellmDecalbutton *button, Slider *s) {
 
 static void create_slider(Slider *s,int first_create) {
   GkrellmStyle *panel_style = gkrellm_meter_style(VOLUME_STYLE);
-  GkrellmStyle *slider_style = 
+  GkrellmStyle *slider_style =
     gkrellm_copy_style(gkrellm_meter_style_by_name("volume.level_slider"));
   GkrellmPiximage *krell_image;
 
@@ -416,18 +416,18 @@ static void create_slider(Slider *s,int first_create) {
   if (mixer_get_device_fullscale(s->mixer, s->dev) != 1) {
     krell_image = gkrellm_krell_slider_piximage();
     s->krell = gkrellm_create_krell(s->panel,krell_image,slider_style);
-    gkrellm_set_krell_full_scale(s->krell, 
+    gkrellm_set_krell_full_scale(s->krell,
                                mixer_get_device_fullscale(s->mixer,s->dev), 1);
     gkrellm_monotonic_krell_values(s->krell, FALSE);
 
     if (!gkrellm_style_is_themed(slider_style,GKRELLMSTYLE_KRELL_YOFF))
-      gkrellm_move_krell_yoff(s->panel, 
+      gkrellm_move_krell_yoff(s->panel,
           s->krell,(s->panel->h - s->krell->h_frame) / 2);
 
     if (first_create) {
        g_signal_connect(G_OBJECT(s->panel->drawing_area),
                            "scroll_event", G_CALLBACK(volume_cb_scroll), s);
-       g_signal_connect(G_OBJECT(s->panel->drawing_area), "button_press_event", 
+       g_signal_connect(G_OBJECT(s->panel->drawing_area), "button_press_event",
                         G_CALLBACK(volume_button_press),s);
        g_signal_connect(GTK_OBJECT(s->panel->drawing_area),
                         "button_release_event",
@@ -439,7 +439,7 @@ static void create_slider(Slider *s,int first_create) {
   } else {
     g_assert_not_reached();
     s->button = gkrellm_make_scaled_button(s->panel, NULL,
-                                           toggle_button_press, s, 
+                                           toggle_button_press, s,
                                            FALSE, FALSE, 0, 0, 0,
                                            gkrellm_chart_width() - 15, 0,
                                            10, 0 );
@@ -467,12 +467,12 @@ static void create_volume_plugin(GtkWidget *vbox,gint first_create) {
 static void update_volume_plugin(void) {
   Slider *s;
   Mixer *m;
-  for (m = Mixerz; m != NULL; m = m->next) 
+  for (m = Mixerz; m != NULL; m = m->next)
     for (s = m->Sliderz ; s != NULL; s = s->next) {
       int left,right;
       mixer_get_device_volume(s->mixer,s->dev,&left,&right);
       /* calculate the balance and show volume if needed */
-      if (s->pleft!=left || s->pright!=right) { 
+      if (s->pleft!=left || s->pright!=right) {
         if (GET_FLAG(s->flags,BALANCE)) {
           if (left < right) {
             s->balance = 100 - (gint) rint(((gdouble)left/right) * 100);
@@ -492,13 +492,13 @@ save_volume_plugin_config(FILE *f) {
   Mixer *m;
   Slider *s;
   if (GET_FLAG(global_flags,MUTEALL)) fprintf(f,"%s MUTEALL\n",CONFIG_KEYWORD);
-  
+
   if (right_click_cmd) {
       fprintf(f, "%s RIGHT_CLICK_CMD %s\n", CONFIG_KEYWORD,
               right_click_cmd);
   }
-                              
-  for (m = Mixerz ; m != NULL ; m = m->next) { 
+
+  for (m = Mixerz ; m != NULL ; m = m->next) {
     fprintf(f,"%s ADDMIXER %s\n",CONFIG_KEYWORD,m->id);
 
     for(s = m->Sliderz; s != NULL; s = s->next) {
@@ -521,7 +521,7 @@ save_volume_plugin_config(FILE *f) {
   }
 }
 
-static void 
+static void
 load_volume_plugin_config(gchar *command) {
   static Mixer *m = NULL;
   static Slider *s = NULL;
@@ -550,12 +550,12 @@ load_volume_plugin_config(gchar *command) {
       mixer_set_device_volume(s->mixer,s->dev,left,right);
       SET_FLAG(s->flags,SAVE_VOLUME);
     }
-  } 
+  }
 }
 
 /* configuration code */
 enum {
-  ID_COLUMN = 0, 
+  ID_COLUMN = 0,
   NAME_COLUMN,
   C_MODEL_COLUMN,
   C_NB_COLUMN,
@@ -578,7 +578,7 @@ GtkWidget *config_notebook;
  * flickering */
 gboolean mixer_config_changed = FALSE;
 
-static void 
+static void
 toggle_item(gchar *path_str,gpointer data,gint column) {
   GtkTreePath *path = gtk_tree_path_new_from_string(path_str);
   GtkTreeIter iter;
@@ -593,12 +593,12 @@ toggle_item(gchar *path_str,gpointer data,gint column) {
   gtk_tree_path_free(path);
 }
 
-static void 
+static void
 toggle_enabled(GtkCellRendererToggle *cell,gchar *path_str,gpointer data) {
   toggle_item(path_str,data,C_ENABLED_COLUMN);
 }
 
-static void 
+static void
 toggle_volume(GtkCellRendererToggle *cell,gchar *path_str,gpointer data) {
   toggle_item(path_str,data,C_VOLUME_COLUMN);
 }
@@ -698,7 +698,7 @@ create_device_notebook(GtkListStore *store, char *name) {
   GtkWidget *hbox;
   GtkWidget *widget;
   GtkWidget *topvbox;
-  
+
   topvbox = gtk_vbox_new(FALSE,0);
   gtk_container_set_border_width(GTK_CONTAINER(topvbox), 0);
   label = gtk_label_new(name);
@@ -721,7 +721,7 @@ create_device_notebook(GtkListStore *store, char *name) {
   g_signal_connect(G_OBJECT(renderer),"toggled",
       G_CALLBACK(toggle_enabled),store);
 
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1, 
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1,
       _("Enabled"),renderer,
       "active",C_ENABLED_COLUMN,
       NULL);
@@ -729,7 +729,7 @@ create_device_notebook(GtkListStore *store, char *name) {
   renderer = gtk_cell_renderer_toggle_new();
   g_signal_connect(G_OBJECT(renderer),"toggled",
       G_CALLBACK(toggle_volume),store);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1, 
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1,
       _("Save volume"),renderer,
       "active",C_VOLUME_COLUMN,
       "activatable",C_ENABLED_COLUMN,
@@ -739,7 +739,7 @@ create_device_notebook(GtkListStore *store, char *name) {
   renderer = gtk_cell_renderer_toggle_new();
   g_signal_connect(G_OBJECT(renderer),"toggled",
       G_CALLBACK(toggle_balance),store);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1, 
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1,
       _("Balance"),renderer,
       "active",C_BALANCE_COLUMN,
       "activatable",C_ENABLED_COLUMN,
@@ -747,7 +747,7 @@ create_device_notebook(GtkListStore *store, char *name) {
 #endif
 
   renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1, 
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1,
       _("Name"),renderer,
       "text", C_NAME_COLUMN,
       NULL);
@@ -808,7 +808,7 @@ static void add_mixer_to_model(char *id, mixer_t *mixer, Slider *s) {
        /*Switch not supported yet */
        continue;
      }
-     if (s != NULL && s->dev == i) { 
+     if (s != NULL && s->dev == i) {
        enabled = TRUE;
        save_volume = GET_FLAG(s->flags,SAVE_VOLUME);
        balance = GET_FLAG(s->flags,BALANCE);
@@ -858,13 +858,13 @@ static void add_mixerid_to_model(char *id,gboolean gui) {
   mixer_t *mixer;
 
   gtk_tree_model_foreach(GTK_TREE_MODEL(model),findid,arg);
-  if (id == NULL) { 
-    if (gui) gkrellm_message_window(_("Error"),_("Id already in list"),NULL); 
+  if (id == NULL) {
+    if (gui) gkrellm_message_window(_("Error"),_("Id already in list"),NULL);
     return;
   }
   if ((mixer = mixer_open(id)) == NULL) {
     if (gui) {
-      name = 
+      name =
         g_strdup_printf(_("Couldn't open %s or %s isn't a mixer device"),id,id);
       gkrellm_message_window(_("Error"),name,NULL);
       g_free(name);
@@ -894,11 +894,11 @@ static void select_file(GtkWidget *widget,gpointer user_data) {
 
   g_signal_connect_swapped(GTK_OBJECT(GTK_FILE_SELECTION(selector)->ok_button),
       "clicked",
-      G_CALLBACK (gtk_widget_destroy), (gpointer) selector); 
+      G_CALLBACK (gtk_widget_destroy), (gpointer) selector);
 
   g_signal_connect_swapped(
       GTK_OBJECT(GTK_FILE_SELECTION(selector)->cancel_button),
-      "clicked", G_CALLBACK (gtk_widget_destroy), (gpointer) selector); 
+      "clicked", G_CALLBACK (gtk_widget_destroy), (gpointer) selector);
   gtk_widget_show(selector);
 }
 #endif
@@ -929,12 +929,12 @@ static void create_volume_plugin_mixer_tabs(void) {
   GtkWidget *scrolledwindow;
   GtkWidget *notebook;
   GtkCellRenderer *renderer;
-  
-  notebook = 
+
+  notebook =
     gkrellm_gtk_framed_notebook_page(config_notebook,_("Available mixers"));
 
   /* Ugly hack to put the gkrellm created notebook at the start */
-  gtk_notebook_reorder_child(GTK_NOTEBOOK(config_notebook), 
+  gtk_notebook_reorder_child(GTK_NOTEBOOK(config_notebook),
     gtk_notebook_get_nth_page(GTK_NOTEBOOK(config_notebook), -1),
     0);
 
@@ -958,7 +958,7 @@ static void create_volume_plugin_mixer_tabs(void) {
       G_CALLBACK(toggle_enabled),model);
 
   renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1, 
+  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(treeview), -1,
       _("Id"),renderer,
       "text", ID_COLUMN,
       NULL);
@@ -1011,7 +1011,7 @@ static void option_toggle(GtkWidget *widget,gpointer data) {
 static void
 create_volume_plugin_config(GtkWidget *tab) {
   GtkWidget *label,*text,*page,*toggle,*right_click_hbox,*right_click_label;
-  gchar *info_text[] = { 
+  gchar *info_text[] = {
    N_("<b>Gkrellm Volume Plugin\n\n"),
    N_("This plugin allows you to control your mixers with gkrellm\n\n"),
    N_("<b>User Interface:\n"),
@@ -1039,7 +1039,7 @@ create_volume_plugin_config(GtkWidget *tab) {
    N_("\t* Mute all mixers at the same time: Mutes all devices on a middle\n"\
       "\t  mouse button click instead of only the one the slider belongs to.\n"\
       "\t* Right-click command: The command to run when the right mouse\n"\
-      "\t  button is clicked on the plugin\n") 
+      "\t  button is clicked on the plugin\n")
   };
 
   gint i;
@@ -1047,6 +1047,7 @@ create_volume_plugin_config(GtkWidget *tab) {
   gchar *plugin_about_text = g_strdup_printf(
      _("Volumeplugin %d.%d.%d\n" \
      "GKrellM volume Plugin\n\n" \
+     "Copyright (C) 2025 Sven Nierlein\n" \
      "Copyright (C) 2000 Sjoerd Simons\n" \
      "sjoerd@luon.net\n" \
      "http://gkrellm.luon.net \n\n" \
@@ -1069,18 +1070,18 @@ create_volume_plugin_config(GtkWidget *tab) {
   g_signal_connect(GTK_OBJECT(toggle),"toggled",
                            G_CALLBACK(option_toggle),GINT_TO_POINTER(MUTEALL));
   gtk_box_pack_start(GTK_BOX(page),toggle,FALSE,FALSE,3);
-  
+
   /* option - right-click command */
   right_click_hbox = gtk_hbox_new(FALSE, 0);
   right_click_label = gtk_label_new(_("Right-click command: "));
   gtk_box_pack_start(GTK_BOX(right_click_hbox),right_click_label,FALSE,FALSE,0);
   right_click_entry = gtk_entry_new();
-  if (right_click_cmd) 
+  if (right_click_cmd)
     gtk_entry_set_text((GtkEntry*)right_click_entry, right_click_cmd);
 
   gtk_box_pack_start(GTK_BOX(right_click_hbox),right_click_entry,TRUE,TRUE,8);
   gtk_box_pack_start(GTK_BOX(page),right_click_hbox,FALSE,FALSE,3);
-  
+
   /* info tab */
   page = gkrellm_gtk_notebook_page(config_notebook,_("Info"));
   text = gkrellm_gtk_scrolled_text_view(page,NULL,
@@ -1090,7 +1091,7 @@ create_volume_plugin_config(GtkWidget *tab) {
 
 
   /* about tab */
-  text = gtk_label_new(plugin_about_text); 
+  text = gtk_label_new(plugin_about_text);
   label = gtk_label_new(_("About"));
   gtk_notebook_append_page(GTK_NOTEBOOK(config_notebook),text,label);
 
@@ -1098,7 +1099,7 @@ create_volume_plugin_config(GtkWidget *tab) {
 
   /* mixer tabs */
   create_volume_plugin_mixer_tabs();
-  
+
   gtk_widget_show_all(config_notebook);
 }
 
@@ -1125,7 +1126,7 @@ static gboolean add_configed_mixer_device(GtkTreeModel *m, GtkTreePath *path,
           C_SNAME_COLUMN,&name,
           -1);
     if (strcmp(name,rname)) mixer_set_device_name(mixer->mixer,nr,name);
-    
+
     s = add_slider(mixer,nr);
     if (save_volume) SET_FLAG(s->flags,SAVE_VOLUME);
     else DEL_FLAG(s->flags,SAVE_VOLUME);
@@ -1155,7 +1156,7 @@ void apply_volume_plugin_config(void) {
   }
   global_flags = config_global_flags;
   if (right_click_entry) {
-    g_strlcpy(right_click_cmd, gtk_entry_get_text((GtkEntry *)right_click_entry), 
+    g_strlcpy(right_click_cmd, gtk_entry_get_text((GtkEntry *)right_click_entry),
             sizeof(right_click_cmd));
   }
 }

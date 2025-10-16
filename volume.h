@@ -1,4 +1,4 @@
-/* GKrellM Volume plugin 
+/* GKrellM Volume plugin
 |  Copyright (C) 1999-2000 Sjoerd Simons
 |
 |  Author:  Sjoerd Simons  sjoerd@luon.net
@@ -19,17 +19,17 @@
 
 #include "mixer.h"
 
-#define VOLUME_MAJOR_VERSION 2
-#define VOLUME_MINOR_VERSION 1
-#define VOLUME_EXTRA_VERSION 12
+#define VOLUME_MAJOR_VERSION 3
+#define VOLUME_MINOR_VERSION 0
+#define VOLUME_EXTRA_VERSION 0
 
 #define CONFIG_KEYWORD "volume_plugin_config"
 
-#define LOCATION MON_APM 
+#define LOCATION MON_APM
 /* The location of the plugin, choose between :
 |*   MON_CLOCK, MON_CPU, MON_PROC, MON_DISK,
-|*   MON_INET, MON_NET, MON_FS, MON_MAIL,       
-|*   MON_APM, or MON_UPTIME                    
+|*   MON_INET, MON_NET, MON_FS, MON_MAIL,
+|*   MON_APM, or MON_UPTIME
 */
 
 /* per slider flags */
@@ -83,4 +83,3 @@ struct Mixer {
   Slider *Sliderz;
   Mixer *next;
 };
-

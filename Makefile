@@ -3,7 +3,7 @@
 PACKAGE ?= gkrellm-volume
 LOCALEDIR ?= /usr/local/share/locale
 
-FLAGS += -DPACKAGE="\"$(PACKAGE)\"" 
+FLAGS += -DPACKAGE="\"$(PACKAGE)\""
 export PACKAGE LOCALEDIR
 
 GTK_CONFIG = pkg-config gtk+-2.0
@@ -11,7 +11,7 @@ GTK_CONFIG = pkg-config gtk+-2.0
 PLUGIN_DIR ?= /usr/local/lib/gkrellm2/plugins
 GKRELLM_INCLUDE = -I/usr/local/include
 
-GTK_CFLAGS = `$(GTK_CONFIG) --cflags` 
+GTK_CFLAGS = `$(GTK_CONFIG) --cflags`
 GTK_LIB = `$(GTK_CONFIG) --libs`
 
 FLAGS = -O2 -Wall -fPIC $(GTK_CFLAGS) $(GKRELLM_INCLUDE)
@@ -23,7 +23,13 @@ OBJS = volume.o mixer.o oss_mixer.o
 ifeq ($(enable_alsa),1)
   FLAGS += -DALSA
   LIBS += -lasound
-  OBJS += alsa_mixer.o 
+  OBJS += alsa_mixer.o
+endif
+
+ifeq ($(enable_bluetooth),1)
+  FLAGS += -DBLUETOOTH
+  LIBS += -lgio-2.0 -lgobject-2.0 -lglib-2.0
+  OBJS += bluetooth_mixer.o
 endif
 
 ifeq ($(enable_nls),1)
@@ -46,9 +52,8 @@ clean:
 	rm -f *.o core *.so* *.bak *~
 	(cd po && ${MAKE} clean)
 
-install: 
+install:
 	(cd po && ${MAKE} install)
 	$(INSTALL_PROGRAM) volume.so $(PLUGIN_DIR)
 
 %.c.o: %.c
-
