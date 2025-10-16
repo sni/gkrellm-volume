@@ -1,0 +1,32 @@
+A plugin for gkrellm 2.0 , that let's you control your mixer..
+
+Compiling:
+===========
+
+The plugin will need at least version 2.0.1 of gtk and version 2.0 of gkrellm
+
+alsa:
+=====
+Compile with:
+   make enable_alsa=1
+The plugin will prefer alsa and fall back to oss when there is no alsa support.
+
+i18n:
+=====
+ Compile with:
+   make enable_nls=1
+  And install with
+   make enable_nls=1 install
+
+Installing:
+===========
+Running 'make install' will place the plugin under
+/usr/local/lib/gkrellm2/plugins ugins.. You can also manually place the 
+resulting volume.so under ~/.gkrellm/plugins.. After restarting gkrellm, 
+you should be able to enable it in the gkrellm plugins configuration menu..
+
+Theming:
+========
+This plugins supports gkrellm's plugin theming possibilities, it's even
+included in the default gkrellm theme :))... The keyword of the plugin is
+"volume".   

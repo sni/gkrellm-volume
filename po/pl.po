@@ -1,0 +1,207 @@
+# Polish translation of GKrellM Volume plugin.
+# Copyright (C) 2002 Free Software Foundation, Inc.
+# Mariusz Jedrzejewski <mj@polcard.com.pl>, 2003.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gkrellm-volume 2.1.8\n"
+"POT-Creation-Date: 2003-08-26 15:17+0200\n"
+"PO-Revision-Date: 2003-08-26 15:34+0200\n"
+"Last-Translator: Mariusz Jedrzejewski <mj@polcard.com.pl>\n"
+"Language-Team: none <none>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: volume.c:162 volume.c:343 volume.c:345
+msgid "Centered"
+msgstr "¦rodek"
+
+#: volume.c:164
+msgid "Right"
+msgstr "Prawa"
+
+#: volume.c:164
+msgid "Left"
+msgstr "Lewa"
+
+#: volume.c:609
+msgid "Enabled"
+msgstr "W³±czony"
+
+#: volume.c:617
+msgid "Save volume"
+msgstr "Pamiêtaj poziom"
+
+#: volume.c:627
+msgid "Balance"
+msgstr "Balans"
+
+#: volume.c:635
+msgid "Name"
+msgstr "Nazwa"
+
+#: volume.c:641
+msgid "Shown Name"
+msgstr "Pokazywana nazwa"
+
+#: volume.c:729 volume.c:736
+msgid "Error"
+msgstr "B³±d"
+
+#: volume.c:729
+msgid "Id already in list"
+msgstr "Id jest ju¿ na li¶cie"
+
+#: volume.c:735
+#, c-format
+msgid "Couldn't open %s or %s isn't a mixer device"
+msgstr "Nie mogê otworzyæ %s lub %s nie jest urz±dzeniem miksera"
+
+#: volume.c:824
+msgid "Please select a mixer device"
+msgstr "Wybierz urz±dzenie miksera"
+
+#: volume.c:871
+msgid "Available mixers"
+msgstr "Dostêpne miksery"
+
+#: volume.c:895
+msgid "Id"
+msgstr "Id"
+
+#: volume.c:901
+msgid "Mixer Name"
+msgstr "Nazwa miksera"
+
+#: volume.c:948
+msgid ""
+"<b>Gkrellm Volume Plugin\n"
+"\n"
+msgstr ""
+"<b>Wtyczka miksera do Gkrellm\n"
+"\n"
+
+#: volume.c:949
+msgid ""
+"This plugin allows you to control your mixers with gkrellm\n"
+"\n"
+msgstr ""
+"Ta wtyczka pozwala ci na sterowanie twoimi mikserami z poziomu GKrellm-a\n"
+"\n"
+
+#: volume.c:950
+msgid "<b>User Interface:\n"
+msgstr "<b>Interfejs u¿ytkownika\n"
+
+#: volume.c:951
+msgid ""
+"\tDragging the krells around or turning your mousewheel above a panel\n"
+"\twill change the volume of the device.\n"
+"\tMiddle mouse button will (un)mute the mixer\n"
+"\n"
+msgstr ""
+"\tPrzesuwanie krellami lub u¿ywanie kó³ka myszy nad panelem\n"
+"\tzmienia poziom d¼wiêku danego urz±dzenia.\n"
+"\t¦rodkowy przycisk myszy wycisza lub przywraca d¼wiêk w mikserze\n"
+"\n"
+
+#: volume.c:954
+msgid "<b> Configuration:\n"
+msgstr "<b>Konfiguracja:\n"
+
+#: volume.c:956
+msgid ""
+"\tThe available mixers tab shows the detected mixers. The order of the\n"
+"\tmixers is the same as they will be in the main window\n"
+"\n"
+"\tEach mixer gets its own tab. You can adjust each device separately:\n"
+"\t * Enabled: will cause the device to show up in the main window.\n"
+"\t * Save volume: will cause the volume and balance to be saved on exit\n"
+"\t   and reset on startup.\n"
+msgstr ""
+"\tZak³adka dostêpnych mikserów pokazuje wykryte miksery. Kolejno¶æ mikserów\n"
+"\tjest taka, jaka bêdzie w g³ównym oknie\n"
+"\n"
+"\tKa¿dy mikser posiada w³asn± zak³adkê. Mo¿esz modyfikowaæ ustawienia "
+"ka¿dego\n"
+"\turz±dzenia niezale¿nie:\n"
+"\t * W³±czony: spowoduje pojawienie siê urz±dzenia w g³ównym oknie.\n"
+"\t * Pamiêtaj poziom: poziom dzwiêku i balans zostanie zapisany przy "
+"wyj¶ciu\n"
+"\t   i odtworzony przy starcie.\n"
+
+#: volume.c:965
+msgid ""
+"\t * Balance: Gives you a panel below the device to control its balance\n"
+msgstr ""
+"\t * Balans: Udostêpnia panel poni¿ej urz±dzenia kontroluj±cy balans "
+"dzwiêku\n"
+
+#: volume.c:968
+msgid ""
+"\t * Name: The 'official' name of the device.\n"
+"\t * Shown name: can be edited and is the name shown in the main window.\n"
+"\n"
+msgstr ""
+"\t * Nazwa: 'Oficjalna' nazwa urz±dzenia.\n"
+"\t * Pokazywana nazwa: mo¿esz j± edytowaæ i taka sama bêdzie w g³ównym "
+"oknie.\n"
+"\n"
+
+#: volume.c:971
+msgid "<b>Options:\n"
+msgstr "<b>Opcje:\n"
+
+#: volume.c:972
+msgid ""
+"\t* Mute all mixers at the same time: Mutes all devices on a middle\n"
+"\t  mouse button click instead of only the one the slider belongs to.\n"
+"\t* Right-click command: The command to run when the right mouse\n"
+"\t  button is clicked on the plugin\n"
+msgstr ""
+"\t* Wycisz wszystkie miksery na raz: ¦rodkowy przycisk myszy wycisza\n"
+"\t  wszystkie urz±dzenia w zamiast jednego, kontrolowanego przez suwak.\n"
+"\t* Polecenie miksera: Polecenie, które zostanie uruchomione po naci¶niêciu\n"
+"\t  na wtyczce prawym przyciskiem myszy\n"
+
+#: volume.c:981
+#, c-format
+msgid ""
+"Volumeplugin %d.%d.%d\n"
+"GKrellM volume Plugin\n"
+"\n"
+"Copyright (C) 2000 Sjoerd Simons\n"
+"sjoerd@luon.net\n"
+"http://gkrellm.luon.net \n"
+"\n"
+"Released under the GNU Public Licence"
+msgstr ""
+"Volumeplugin %d.%d.%d\n"
+"GKrellM volume Plugin\n"
+"\n"
+"Copyright (C) 2000 Sjoerd Simons\n"
+"sjoerd@luon.net\n"
+"http://gkrellm.luon.net \n"
+"\n"
+"Released under the GNU Public Licence"
+
+#: volume.c:1001
+msgid "Options"
+msgstr "Opcje"
+
+#: volume.c:1004
+msgid "Mute all mixers at the same time"
+msgstr "Wycisz wszystkie miksery na raz"
+
+#: volume.c:1011
+msgid "Right-click command: "
+msgstr "Polecenie miksera: "
+
+#: volume.c:1019
+msgid "Info"
+msgstr "Informacje"
+
+#: volume.c:1028
+msgid "About"
+msgstr "O"

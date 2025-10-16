@@ -1,0 +1,209 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: gkrellm-volume 2.1.9\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-08-26 09:33+0200\n"
+"PO-Revision-Date: 2002-11-2 19:49+0100\n"
+"Last-Translator: Michiel Sikkes <michiels@luon.net>\n"
+"Language-Team: Nederlands <nl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: volume.c:162 volume.c:343 volume.c:345
+msgid "Centered"
+msgstr "Gecentreerd"
+
+#: volume.c:164
+msgid "Right"
+msgstr "Rechts"
+
+#: volume.c:164
+msgid "Left"
+msgstr "Links"
+
+#: volume.c:609
+msgid "Enabled"
+msgstr "Zichtbaar"
+
+#: volume.c:617
+msgid "Save volume"
+msgstr "Volume instellingen opslaan"
+
+#: volume.c:627
+msgid "Balance"
+msgstr "Balans"
+
+#: volume.c:635
+msgid "Name"
+msgstr "Naam"
+
+#: volume.c:641
+msgid "Shown Name"
+msgstr "Weergeven Naam"
+
+#: volume.c:729 volume.c:736
+msgid "Error"
+msgstr "Fout"
+
+#: volume.c:729
+msgid "Id already in list"
+msgstr "Id bestaat al in de lijst"
+
+#: volume.c:735
+#, c-format
+msgid "Couldn't open %s or %s isn't a mixer device"
+msgstr "Kon %s niet openen of %s is geen mixer device"
+
+#: volume.c:824
+msgid "Please select a mixer device"
+msgstr "Selecteer een mixer device"
+
+#: volume.c:871
+msgid "Available mixers"
+msgstr "Beschikbare mixers"
+
+#: volume.c:895
+msgid "Id"
+msgstr "Id"
+
+#: volume.c:901
+msgid "Mixer Name"
+msgstr "Mixer Naam"
+
+#: volume.c:948
+msgid ""
+"<b>Gkrellm Volume Plugin\n"
+"\n"
+msgstr ""
+"<b>Gkrellm Volume Plugin\n"
+"\n"
+
+#: volume.c:949
+msgid ""
+"This plugin allows you to control your mixers with gkrellm\n"
+"\n"
+msgstr ""
+"Deze plugin laat u uw mixers besturen met gkrellm\n"
+"\n"
+
+#: volume.c:950
+msgid "<b>User Interface:\n"
+msgstr "<b>Gebruikers Interface:\n"
+
+#: volume.c:951
+msgid ""
+"\tDragging the krells around or turning your mousewheel above a panel\n"
+"\twill change the volume of the device.\n"
+"\tMiddle mouse button will (un)mute the mixer\n"
+"\n"
+msgstr ""
+"\tDoor de krells te slepen of uw muiswiel draaien boven een paneel\n"
+"\tzal het volume van het device veranderen\n"
+"\tDe middelste muisknop zal de mixer (ont)dempen\n"
+"\n"
+
+#: volume.c:954
+msgid "<b> Configuration:\n"
+msgstr "<b> Configuratie:\n"
+
+#: volume.c:956
+msgid ""
+"\tThe available mixers tab shows the detected mixers. The order of the\n"
+"\tmixers is the same as they will be in the main window\n"
+"\n"
+"\tEach mixer gets its own tab. You can adjust each device separately:\n"
+"\t * Enabled: will cause the device to show up in the main window.\n"
+"\t * Save volume: will cause the volume and balance to be saved on exit\n"
+"\t   and reset on startup.\n"
+msgstr ""
+"\tDe beschikbare mixers tab laat de gedetecteerde mixers zien. De volgorde\n"
+"\tvan de mixers is dezelfde als ze zullen zijn in het main window\n"
+"\n"
+"\tElke mixer krijgt zijn eigen tab. U kunt de instellingen van elk device\n"
+"\tapart instellen:\n"
+"\t * Zichtbaar: zal het device in het main window laten verschijnen.\n"
+"\t * Volume opslaan: zal de volume en balans instellingen opslaan bij het\n"
+"\t   afsluiten en herstellen bij opstarten.\n"
+
+#: volume.c:965
+msgid ""
+"\t * Balance: Gives you a panel below the device to control its balance\n"
+msgstr ""
+"\t * Balans: Geeft u een paneel onder het device om de balans te wijzigen\n"
+
+#: volume.c:968
+#, fuzzy
+msgid ""
+"\t * Name: The 'official' name of the device.\n"
+"\t * Shown name: can be edited and is the name shown in the main window.\n"
+"\n"
+msgstr ""
+"\t * Naam: De 'officiële' naam van het device.\n"
+"\t * Weergeven naam: kan gewijzigd worden en is de naam weergeven in het\n"
+"\t   main window.\n"
+"\n"
+
+#: volume.c:971
+#, fuzzy
+msgid "<b>Options:\n"
+msgstr "<b>Opties:\n"
+
+#: volume.c:972
+msgid "" 
+"\t* Mute all mixers at the same time: Mutes all devices on a middle\n"
+"\t  mouse button click instead of only the one the slider belongs to.\n"
+"\t* Right-click command: The command to run when the right mouse\n"
+"\t  button is clicked on the plugin\n"
+msgstr "" 
+"\t* Alle mixers tegelijk dempen: Dempt alle devices op een middelste\n"
+"\t  muisknop klik behalve degene waar de slider bijhoort waar op geklikt is.\n"
+"\t* Rechter-muisknop: Het commando wat uitgevoert moet worden als er met de\n"
+"\t  rechter-muisknop op geklikt wordt\n"
+
+#: volume.c:981
+#, c-format
+msgid ""
+"Volumeplugin %d.%d.%d\n"
+"GKrellM volume Plugin\n"
+"\n"
+"Copyright (C) 2000 Sjoerd Simons\n"
+"sjoerd@luon.net\n"
+"http://gkrellm.luon.net \n"
+"\n"
+"Released under the GNU Public Licence"
+msgstr ""
+"Volumeplugin %d.%d.%d\n"
+"GKrellM volume Plugin\n"
+"\n"
+"Copyright (C) 2000 Sjoerd Simons\n"
+"sjoerd@luon.net\n"
+"http://gkrellm.luon.net \n"
+"\n"
+"Onder the GNU Public Licence uitgebracht."
+
+#: volume.c:1001
+msgid "Options"
+msgstr "Opties"
+
+#: volume.c:1004
+msgid "Mute all mixers at the same time"
+msgstr "Alle mixers tegelijk dempen"
+
+#: volume.c:1011
+msgid "Right-click command: "
+msgstr ""
+
+#: volume.c:1019
+msgid "Info"
+msgstr "Info"
+
+#: volume.c:1028
+msgid "About"
+msgstr "Over"

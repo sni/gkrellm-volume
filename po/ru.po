@@ -1,0 +1,196 @@
+# Russian Translation of GKrellM Volume plugin.
+# Grigory Batalov <bga@altlinux.ru>, 2002-2003.
+msgid ""
+msgstr ""
+"Project-Id-Version: gkrellm-volume 2.1.9\n"
+"POT-Creation-Date: 2003-08-25 19:53+0400\n"
+"PO-Revision-Date: 2003-08-25 20:13+0400\n"
+"Last-Translator: Grigory Batalov <bga@altlinux.ru>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=KOI8-R\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: volume.c:162 volume.c:343 volume.c:345
+msgid "Centered"
+msgstr "по центру"
+
+#: volume.c:164
+msgid "Right"
+msgstr "вправо"
+
+#: volume.c:164
+msgid "Left"
+msgstr "влево"
+
+#: volume.c:609
+msgid "Enabled"
+msgstr "Показать"
+
+#: volume.c:617
+msgid "Save volume"
+msgstr "Запоминать"
+
+#: volume.c:627
+msgid "Balance"
+msgstr "Баланс"
+
+#: volume.c:635
+msgid "Name"
+msgstr "Имя"
+
+#: volume.c:641
+msgid "Shown Name"
+msgstr "Подпись"
+
+#: volume.c:729 volume.c:736
+msgid "Error"
+msgstr "Ошибка"
+
+#: volume.c:729
+msgid "Id already in list"
+msgstr "Id уже есть в списке"
+
+#: volume.c:735
+#, c-format
+msgid "Couldn't open %s or %s isn't a mixer device"
+msgstr "Не могу открыть %s, или %s - не микшер"
+
+#: volume.c:824
+msgid "Please select a mixer device"
+msgstr "Выберите устройство микшера"
+
+#: volume.c:871
+msgid "Available mixers"
+msgstr "Доступные микшеры"
+
+#: volume.c:895
+msgid "Id"
+msgstr ""
+
+#: volume.c:901
+msgid "Mixer Name"
+msgstr "Имя микшера"
+
+#: volume.c:948
+msgid ""
+"<b>Gkrellm Volume Plugin\n"
+"\n"
+msgstr ""
+
+#: volume.c:949
+msgid ""
+"This plugin allows you to control your mixers with gkrellm\n"
+"\n"
+msgstr ""
+"Этот плагин позволяет вам регулировать микшеры из gkrellm\n"
+"\n"
+
+#: volume.c:950
+msgid "<b>User Interface:\n"
+msgstr "<b>Пользовательский интерфейс:\n"
+
+#: volume.c:951
+msgid ""
+"\tDragging the krells around or turning your mousewheel above a panel\n"
+"\twill change the volume of the device.\n"
+"\tMiddle mouse button will (un)mute the mixer\n"
+"\n"
+msgstr ""
+"\tПеремещая креллы или поворачивая колесо мыши над панелью плагина,\n"
+"\tвы можете изменять громкость устройств.\n"
+"\tСредняя кнопка включает/выключает устройство.\n"
+
+#: volume.c:954
+msgid "<b> Configuration:\n"
+msgstr "<b> Настройка:\n"
+
+#: volume.c:956
+msgid ""
+"\tThe available mixers tab shows the detected mixers. The order of the\n"
+"\tmixers is the same as they will be in the main window\n"
+"\n"
+"\tEach mixer gets its own tab. You can adjust each device separately:\n"
+"\t * Enabled: will cause the device to show up in the main window.\n"
+"\t * Save volume: will cause the volume and balance to be saved on exit\n"
+"\t   and reset on startup.\n"
+msgstr ""
+"\tВкладка \"Доступные микшеры\" содержит обнаруженные устройства.\n"
+"\tПорядок микшеров такой же, как он будет в окне gkrellm.\n"
+"\n"
+"\tКаждое устройство настраивается в собственной вкладке:\n"
+"\t * Показать: устройство появляется в главном окне.\n"
+"\t * Запоминать: громкость и баланс будут записаны при выходе\n"
+"\t    и восстановлены при запуске.\n"
+
+#: volume.c:965
+msgid ""
+"\t * Balance: Gives you a panel below the device to control its balance\n"
+msgstr "\t * Баланс: выводит дополнительную панель для настройки баланса.\n"
+
+#: volume.c:968
+msgid ""
+"\t * Name: The 'official' name of the device.\n"
+"\t * Shown name: can be edited and is the name shown in the main window.\n"
+"\n"
+msgstr ""
+"\t * Имя: 'официальное' имя устройства.\n"
+"\t * Подпись: имя, отображаемое в главном окне (можно менять).\n"
+"\n"
+
+#: volume.c:971
+msgid "<b>Options:\n"
+msgstr "<b>Опции:\n"
+
+#: volume.c:972
+msgid ""
+"\t* Mute all mixers at the same time: Mutes all devices on a middle\n"
+"\t  mouse button click instead of only the one the slider belongs to.\n"
+"\t* Right-click command: The command to run when the right mouse\n"
+"\t  button is clicked on the plugin\n"
+msgstr ""
+"\t* Выключать все устройства одновременно: выключает щелчком средней\n"
+"\t  кнопки мыши все устройства, а не только то, чей ползунок.\n"
+"\t* Команда для запуска: команда, выполняемая при щелчке правой\n"
+"\t  кнопкой мыши\n"
+
+#: volume.c:981
+#, c-format
+msgid ""
+"Volumeplugin %d.%d.%d\n"
+"GKrellM volume Plugin\n"
+"\n"
+"Copyright (C) 2000 Sjoerd Simons\n"
+"sjoerd@luon.net\n"
+"http://gkrellm.luon.net \n"
+"\n"
+"Released under the GNU Public Licence"
+msgstr ""
+"Volumeplugin %d.%d.%d\n"
+"GKrellM volume Plugin\n"
+"\n"
+"Copyright (C) 2000 Sjoerd Simons\n"
+"sjoerd@luon.net\n"
+"http://gkrellm.luon.net \n"
+"\n"
+"Распространяется под GNU Public Licence"
+
+#: volume.c:1001
+msgid "Options"
+msgstr "Опции"
+
+#: volume.c:1004
+msgid "Mute all mixers at the same time"
+msgstr "Выключать все устройства одновременно"
+
+#: volume.c:1011
+msgid "Right-click command: "
+msgstr "Команда для запуска: "
+
+#: volume.c:1019
+msgid "Info"
+msgstr "Инфо"
+
+#: volume.c:1028
+msgid "About"
+msgstr "О программе"

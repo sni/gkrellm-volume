@@ -1,0 +1,9 @@
+Theming the volume plugin:
+
+  Using the "volume" plugin keyword you can theme like you would all the other
+  meters (see the theme documentation).  The slider krells have the same
+  behaviour as 'normal krells'
+
+  Using "volume.level_slider" or "volume.balance_slider", you can theme the 
+  krells of the level and balance seperately
+

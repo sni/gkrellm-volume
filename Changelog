@@ -1,0 +1,68 @@
+2.1.13:
+  * Brown paper bag bug in alsa backend introduced in the previous version.
+
+2.1.12:
+  * Fix mousewheel scrolling in the balance slider (pointed out by 
+	  Philip Lafleur <headcheese@carolina.rr.com>)
+	* es translatoion by YoaR <yoar@users.sourceforge.net> 
+	* Backend support for switches, not available in the frontend yet
+
+2.1.11:
+  * Added alsa support !
+
+2.1.10:
+  * Updated french translation by Jérôme UZEL <jerome.uzel@free.fr>
+  * Fixed some spelling errors in the info thanks to A Costa <agcosta@gis.net>
+  * React on horizontal scrolling correctly 
+
+2.1.9: 
+  * Better explanation of the options in the info tab
+  * Updated german translation by Steffen Weise <sw0001@p4all.de>
+  * Updated polish translation by Mariusz Jedrzejewski <mj@polcard.com.pl>
+  * Updated dutch translation by Michiel Sikkes <michiels@luon.net> 
+  * Updated russian translation by Grigory Batalov <bga@altlinux.ru> 
+
+2.1.8:
+  * Right click on the plugin causes a configurable command to be run. Patch
+    by Tomas Styblo <tripie@cpan.org>
+
+2.1.7:
+  * Resolve symlinks on mixer detection based on a patch by 
+    Jérôme UZEL <jerome.uzel@free.fr>
+
+2.1.6: 
+  * French translation by Jérôme UZEL <jerome.uzel@free.fr>
+  * German translation by Steffen Weise <sw0001@p4all.de>  
+
+2.1.5:
+  * Patch by Grigory Batalov <bga@altlinux.ru> for i18n
+  * Russian translation by  Grigory Batalov <bga@altlinux.ru>
+  * Dutch translation by Michiel Sikkes <michiels@luon.net>
+
+2.1.4:
+  * Patch for FreeBSD from Hajimu UMEMOTO <ume@mahoroba.org>
+
+2.1.3:
+  * Don't mix g_free/free calls with g_malloc/malloc
+  * incorperated win32 update from Bill Nalens <nalensb@towers.com>
+  * Posibilty to theme the sliders, see the THEMING file
+
+2.1.2:
+  * The sliders go back to the right position after a theme change
+  * Don't crash when changing a theme with a balance slider on
+
+2.1.1:
+  * Fixed a bug which caused the balance to be fully to the left after muting
+
+2.1.0:
+  * Possibility to add a balance control to the mixer krells
+  * Possibility to save mixer volume and balans and reset it on startup
+  * Middle mouse button let's you mute some stuff
+  * Various other tweaks
+
+2.0.1: 
+  * incorperated win32 update from Bill Nalens <nalensb@towers.com>
+  * Limit scrolling the mouse wheel down
+
+2.0:
+  * Complete rewrite for gtk 2 and gkrellm 2
