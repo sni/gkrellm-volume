@@ -25,6 +25,7 @@
 
 #define BLUEZ_SERVICE "org.bluez"
 #define BLUEZ_MEDIA_INTERFACE "org.bluez.MediaTransport1"
+#define DBUS_TIMEOUT_MS 1000  /* 1 second timeout to prevent hangs */
 
 static mixer_ops_t *get_mixer_ops(void);
 
@@ -65,7 +66,7 @@ bt_get_connected_devices(GDBusConnection *connection) {
                                         NULL,
                                         G_VARIANT_TYPE("(a{oa{sa{sv}}})"),
                                         G_DBUS_CALL_FLAGS_NONE,
-                                        -1,
+                                        DBUS_TIMEOUT_MS,
                                         NULL,
                                         &error);
 
@@ -163,7 +164,7 @@ bt_find_transport_path(GDBusConnection *connection, const gchar *device_path) {
                                         NULL,
                                         G_VARIANT_TYPE("(a{oa{sa{sv}}})"),
                                         G_DBUS_CALL_FLAGS_NONE,
-                                        -1,
+                                        DBUS_TIMEOUT_MS,
                                         NULL,
                                         &error);
 
@@ -310,7 +311,7 @@ bluetooth_mixer_open(char *device_path) {
                                                                      "Name"),
                                                          G_VARIANT_TYPE("(v)"),
                                                          G_DBUS_CALL_FLAGS_NONE,
-                                                         -1,
+                                                         DBUS_TIMEOUT_MS,
                                                          NULL,
                                                          NULL);
 
@@ -378,14 +379,20 @@ bluetooth_device_get_volume(mixer_t *mixer, int devid, int *left, int *right) {
                                                BLUEZ_MEDIA_INTERFACE,
                                                "Volume"),
                                    G_DBUS_CALL_FLAGS_NONE,
-                                   -1,
+                                   DBUS_TIMEOUT_MS,
                                    NULL,
                                    &error);
 
     if (error) {
-        bt_error("Failed to get volume: %s", error->message);
+        /* Device might be reconnecting - use last known volume */
+        if (error->code == G_IO_ERROR_TIMED_OUT ||
+            error->code == G_DBUS_ERROR_NO_REPLY ||
+            error->code == G_DBUS_ERROR_TIMEOUT) {
+            bt_error("Timeout getting volume (device reconnecting?): %s", error->message);
+        } else {
+            bt_error("Failed to get volume: %s", error->message);
+        }
         g_error_free(error);
-        *left = *right = 64; /* Default middle volume */
         return;
     }
 
@@ -396,8 +403,6 @@ bluetooth_device_get_volume(mixer_t *mixer, int devid, int *left, int *right) {
         *left = *right = volume;
         g_variant_unref(value);
         g_variant_unref(result);
-    } else {
-        *left = *right = 64;
     }
 }
 
@@ -424,12 +429,19 @@ bluetooth_device_set_volume(mixer_t *mixer, int devid, int left, int right) {
                                       "Volume",
                                       g_variant_new_uint16(volume)),
                           G_DBUS_CALL_FLAGS_NONE,
-                          -1,
+                          DBUS_TIMEOUT_MS,
                           NULL,
                           &error);
 
     if (error) {
-        bt_error("Failed to set volume: %s", error->message);
+        /* Don't spam logs if device is just reconnecting */
+        if (error->code == G_IO_ERROR_TIMED_OUT ||
+            error->code == G_DBUS_ERROR_NO_REPLY ||
+            error->code == G_DBUS_ERROR_TIMEOUT) {
+            bt_error("Timeout setting volume (device reconnecting?)");
+        } else {
+            bt_error("Failed to set volume: %s", error->message);
+        }
         g_error_free(error);
     }
 }
