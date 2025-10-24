@@ -330,7 +330,8 @@ bluetooth_mixer_open(char *device_path) {
     result->dev_names = g_new0(gchar *, 1);
     result->dev_realnames = g_new0(gchar *, 1);
     result->dev_realnames[0] = g_strdup("Volume");
-    result->dev_names[0] = NULL;
+    /* Use mixer name (Bluetooth device name) as the default shown name */
+    result->dev_names[0] = g_strdup(result->name);
 
     return result;
 }
@@ -352,6 +353,7 @@ bluetooth_mixer_close(mixer_t *mixer) {
     g_free(mixer->name);
     g_free(mixer->dev_realnames[0]);
     g_free(mixer->dev_realnames);
+    g_free(mixer->dev_names[0]);
     g_free(mixer->dev_names);
     g_free(mixer);
 }
