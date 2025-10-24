@@ -362,6 +362,50 @@ bluetooth_device_get_fullscale(mixer_t *mixer, int devid) {
     return 127;
 }
 
+static gboolean
+bluetooth_refresh_transport(bluetooth_mixer_t *bt_mixer) {
+    gchar *new_transport_path;
+    GError *error = NULL;
+
+    /* Find the current transport path for this device */
+    new_transport_path = bt_find_transport_path(bt_mixer->connection, bt_mixer->device_path);
+    if (!new_transport_path) {
+        bt_error("Failed to refresh transport path for device %s", bt_mixer->device_path);
+        return FALSE;
+    }
+
+    /* Check if transport path changed */
+    if (g_strcmp0(new_transport_path, bt_mixer->transport_path) != 0) {
+        /* Transport path changed - recreate proxy */
+        if (bt_mixer->media_proxy) {
+            g_object_unref(bt_mixer->media_proxy);
+            bt_mixer->media_proxy = NULL;
+        }
+
+        g_free(bt_mixer->transport_path);
+        bt_mixer->transport_path = new_transport_path;
+
+        bt_mixer->media_proxy = g_dbus_proxy_new_sync(bt_mixer->connection,
+                                                      G_DBUS_PROXY_FLAGS_NONE,
+                                                      NULL,
+                                                      BLUEZ_SERVICE,
+                                                      bt_mixer->transport_path,
+                                                      BLUEZ_MEDIA_INTERFACE,
+                                                      NULL,
+                                                      &error);
+
+        if (error) {
+            bt_error("Failed to recreate proxy after reconnect: %s", error->message);
+            g_error_free(error);
+            return FALSE;
+        }
+    } else {
+        g_free(new_transport_path);
+    }
+
+    return TRUE;
+}
+
 static void
 bluetooth_device_get_volume(mixer_t *mixer, int devid, int *left, int *right) {
     bluetooth_mixer_t *bt_mixer = BTMIXER(mixer);
@@ -384,16 +428,34 @@ bluetooth_device_get_volume(mixer_t *mixer, int devid, int *left, int *right) {
                                    &error);
 
     if (error) {
-        /* Device might be reconnecting - use last known volume */
+        /* Device might have reconnected - try to refresh transport */
         if (error->code == G_IO_ERROR_TIMED_OUT ||
             error->code == G_DBUS_ERROR_NO_REPLY ||
-            error->code == G_DBUS_ERROR_TIMEOUT) {
-            bt_error("Timeout getting volume (device reconnecting?): %s", error->message);
-        } else {
-            bt_error("Failed to get volume: %s", error->message);
+            error->code == G_DBUS_ERROR_TIMEOUT ||
+            error->code == G_DBUS_ERROR_UNKNOWN_OBJECT ||
+            error->code == G_DBUS_ERROR_UNKNOWN_INTERFACE) {
+            g_error_free(error);
+            error = NULL;
+
+            if (bluetooth_refresh_transport(bt_mixer)) {
+                /* Retry after refresh */
+                result = g_dbus_proxy_call_sync(bt_mixer->media_proxy,
+                                               "org.freedesktop.DBus.Properties.Get",
+                                               g_variant_new("(ss)",
+                                                           BLUEZ_MEDIA_INTERFACE,
+                                                           "Volume"),
+                                               G_DBUS_CALL_FLAGS_NONE,
+                                               DBUS_TIMEOUT_MS,
+                                               NULL,
+                                               &error);
+            }
         }
-        g_error_free(error);
-        return;
+
+        if (error) {
+            bt_error("Failed to get volume: %s", error->message);
+            g_error_free(error);
+            return;
+        }
     }
 
     if (result) {
@@ -411,6 +473,7 @@ bluetooth_device_set_volume(mixer_t *mixer, int devid, int left, int right) {
     bluetooth_mixer_t *bt_mixer = BTMIXER(mixer);
     GError *error = NULL;
     guint16 volume;
+    GVariant *result;
 
     if (!bt_mixer->media_proxy)
         return;
@@ -422,7 +485,7 @@ bluetooth_device_set_volume(mixer_t *mixer, int devid, int left, int right) {
     if (volume > 127)
         volume = 127;
 
-    g_dbus_proxy_call_sync(bt_mixer->media_proxy,
+    result = g_dbus_proxy_call_sync(bt_mixer->media_proxy,
                           "org.freedesktop.DBus.Properties.Set",
                           g_variant_new("(ssv)",
                                       BLUEZ_MEDIA_INTERFACE,
@@ -434,15 +497,38 @@ bluetooth_device_set_volume(mixer_t *mixer, int devid, int left, int right) {
                           &error);
 
     if (error) {
-        /* Don't spam logs if device is just reconnecting */
+        /* Device might have reconnected - try to refresh transport */
         if (error->code == G_IO_ERROR_TIMED_OUT ||
             error->code == G_DBUS_ERROR_NO_REPLY ||
-            error->code == G_DBUS_ERROR_TIMEOUT) {
-            bt_error("Timeout setting volume (device reconnecting?)");
-        } else {
-            bt_error("Failed to set volume: %s", error->message);
+            error->code == G_DBUS_ERROR_TIMEOUT ||
+            error->code == G_DBUS_ERROR_UNKNOWN_OBJECT ||
+            error->code == G_DBUS_ERROR_UNKNOWN_INTERFACE) {
+            g_error_free(error);
+            error = NULL;
+
+            if (bluetooth_refresh_transport(bt_mixer)) {
+                /* Retry after refresh */
+                result = g_dbus_proxy_call_sync(bt_mixer->media_proxy,
+                                      "org.freedesktop.DBus.Properties.Set",
+                                      g_variant_new("(ssv)",
+                                                  BLUEZ_MEDIA_INTERFACE,
+                                                  "Volume",
+                                                  g_variant_new_uint16(volume)),
+                                      G_DBUS_CALL_FLAGS_NONE,
+                                      DBUS_TIMEOUT_MS,
+                                      NULL,
+                                      &error);
+            }
         }
-        g_error_free(error);
+
+        if (error) {
+            bt_error("Failed to set volume: %s", error->message);
+            g_error_free(error);
+        }
+    }
+
+    if (result) {
+        g_variant_unref(result);
     }
 }
 
